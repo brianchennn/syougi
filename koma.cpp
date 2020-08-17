@@ -51,8 +51,8 @@ Koma::Koma(string str){
         code = 'E';
         kanji = "誤";
     }
-    nari = false;
-    syoyusya = false;
+    nari = 0;
+    syoyusya = 0;
 }
 
 Koma::Koma(string str, bool syo){

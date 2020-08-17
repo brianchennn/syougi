@@ -169,9 +169,9 @@ void Ban::Print(){
 void Ban::sasu(){
     cout<<"(第"<<tezu<<"手) ";
     if(tezu%2 == 1){
-        cout<<"先手、指してください: ";
+        cout<<"先手▲、指してください: ";
     }else{
-        cout<<"後手、指してください: ";
+        cout<<"後手△、指してください: ";
     }
     string str;
     getline(cin,str);
@@ -186,7 +186,46 @@ void Ban::sasu(){
     if(itte.describe == "打"){
         if(koma[itte.suji][itte.dan].name != "nasi"){
             cout<<"打てない！\n";
+        }else{
+            if(tezu%2==1){
+                int flag = 0;
+                vector<Koma>::iterator it;
+                for(int i=0;i<sente_komadai.size();i++){
+                    if(itte.koma.name == sente_komadai[i].name){
+                        it = sente_komadai.begin()+i;
+                        flag = 1;break;
+                    }
+                }
+                if(flag == 0){
+                    cout<<"打てません！"<<endl;return;
+                }
+                else if(flag==1){
+                    sente_komadai.erase(it);
+                    koma[itte.suji][itte.dan] = Koma(itte.koma.name);
+                    koma[itte.suji][itte.dan].syoyusya = 0;
+                }
+            }else{
+                int flag = 0;
+                vector<Koma>::iterator it;
+                for(int i=0;i<gote_komadai.size();i++){
+                    if(itte.koma.name == gote_komadai[i].name){
+                        it = gote_komadai.begin()+i;
+                        flag = 1;break;
+                    }
+                }
+                if(flag == 0){
+                    cout<<"打てません！"<<endl;return;
+                }
+                else if(flag==1){
+                    gote_komadai.erase(it);
+                    koma[itte.suji][itte.dan] = Koma(itte.koma.name);
+                    koma[itte.suji][itte.dan].syoyusya = 1;
+                }
+            }
+            
         }
+        tezu++;
+        return;
     }
     vector<pair<int,int> > ugokeru;
     ugokeru = ugokerukoma(itte.koma, itte.suji, itte.dan);

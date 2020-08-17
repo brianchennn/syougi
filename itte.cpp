@@ -64,7 +64,7 @@ Itte::Itte(string str,Kifu *k){
     all >> token;
     int jump = 0;
     if(token == "同"){
-        Itte itt = k->kifu[k->kifu.size()].second;
+        Itte itt = k->kifu[k->kifu.size()-1].second;
         suji = itt.suji;
         dan = itt.dan;
         jump = 1;
