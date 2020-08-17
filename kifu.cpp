@@ -3,19 +3,22 @@
 using namespace std;
 
 Kifu::Kifu(){
-    kifu_map.clear();
+    kifu.clear();
 }
 
 void Kifu::Add(int tezu, Itte itte){
     int tezuu = tezu;
-    kifu_map.insert(pair<int,Itte>(tezuu,itte));
+    kifu.push_back(pair<int,Itte>(tezuu,itte));
 }
 void Kifu::Print(){
-    if(kifu_map.size()==0){
+    if(kifu.size()==0){
         cout<<"還沒下第一手喔!^ ^\n";
     }
-    for(int i=0;i<kifu_map.size();i++){
-        cout<<"(第"<<i<<"手) "<< kifu_map[i].suji<<" "<<kifu_map[i].dan
-            <<" "<<kifu_map[i].koma.name<<" "<<kifu_map[i].describe<<endl;
+    for(int i=0;i<kifu.size();i++){
+        cout<<i+1;
+        if(i%2==0)cout<<"▲ ";
+        else cout<<"△ ";
+        cout<<kifu[i].second.suji+1<<" "<<kifu[i].second.dan+1
+            <<" "<<kifu[i].second.koma.kanji<<" "<<kifu[i].second.describe<<endl;
     }
 }

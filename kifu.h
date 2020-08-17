@@ -12,7 +12,7 @@ public:
     void Search();
     void Print();
     void Add(int tezu,Itte itte);
-    map<int,Itte> kifu_map;
+    vector<pair<int,Itte> > kifu;
     
 };
 #endif

@@ -112,6 +112,7 @@ Ban::Ban(){
     tezu=1;
 }
 void Ban::Print(){
+
     int count = 0;
     cout<<"後手"<<endl;
     for(int i=0;i < gote_komadai.size();i++){
@@ -121,13 +122,37 @@ void Ban::Print(){
     }
     cout<<endl;
     if(count==0)cout<<endl;
+    cout<<" ";
+    for(int i=0;i<36;i++)cout<<"-";
+    cout<<"\n";
     for(int i=0;i<9;i++){
+        cout<<"|";
         for(int j=8;j>=0;j--){
-            cout<<koma[j][i].kanji;
+            if(koma[j][i].nari == 0){
+                cout<<koma[j][i].kanji;
+            }else{
+                if(koma[j][i].kanji == "桂")cout<<"圭";
+                if(koma[j][i].kanji == "香")cout<<"杏";
+                if(koma[j][i].kanji == "銀")cout<<"全";
+                if(koma[j][i].kanji == "步")cout<<"と";
+                if(koma[j][i].kanji == "飛")cout<<"竜";
+                if(koma[j][i].kanji == "角")cout<<"馬";
+            }
+            if(koma[j][i].name!="nasi"){
+                if(koma[j][i].syoyusya==0)cout<<"↑";
+                else cout<<"↓";
+            }else{
+                cout<<" ";
+            }
+            
+            cout<<" ";
         }
-        cout<<endl;
+        cout<<"|\n|";
+        for(int j=0;j<36;j++)cout<<" ";
+        cout<<"|\n";
     }
-
+    cout<<' ';
+    for(int i=0;i<36;i++)cout<<"-";
     count = 0;
     for(int i=0;i < sente_komadai.size();i++){
         cout<<sente_komadai[i].kanji;
@@ -150,15 +175,19 @@ void Ban::sasu(){
     }
     string str;
     getline(cin,str);
-    if(str == "棋譜查閱"){
+    if(str == "棋譜查閱" or str == "棋譜" or str == "kifu" or str == "Kifu"){
         kifu.Print();
         return;
-    }else if( str == "盤面查閱"){
+    }else if( str == "盤面查閱" or str == "ban" or str == "盤面"){
         Print();
         return;
     }
-    Itte itte(str);
-    kifu.Add(tezu,itte);
+    Itte itte(str, &kifu);
+    if(itte.describe == "打"){
+        if(koma[itte.suji][itte.dan].name != "nasi"){
+            cout<<"打てない！\n";
+        }
+    }
     vector<pair<int,int> > ugokeru;
     ugokeru = ugokerukoma(itte.koma, itte.suji, itte.dan);
     if(ugokeru.size()==0){
@@ -193,6 +222,24 @@ void Ban::sasu(){
                 }
             }
         }
+        if(itte.describe == "成"){
+            if(tezu%2 == 1){
+                if( itte.dan == 0 || itte.dan == 1 || itte.dan == 2 
+                    || ugokeru[0].second == 0 || ugokeru[0].second == 1 || ugokeru[0].second == 2){
+                    koma[itte.suji][itte.dan].nari = 1;
+                }else{
+                    cout<<"なれません！";
+                }
+            }else{
+                if( itte.dan == 6 || itte.dan == 7 || itte.dan == 8 
+                    || ugokeru[0].second == 6 || ugokeru[0].second == 7 || ugokeru[0].second == 8){
+                    koma[itte.suji][itte.dan].nari = 1;
+                }else{
+                    cout<<"なれません！";
+                }
+            }
+        }
+        kifu.Add(tezu,itte);
         koma[itte.suji][itte.dan] = koma[ugokeru[0].first][ugokeru[0].second];
         Koma kkk("nasi");
         koma[ugokeru[0].first][ugokeru[0].second] = kkk;
@@ -213,7 +260,7 @@ vector<pair<int,int> > Ban::ugokerukoma(Koma k,int suji, int dan){// suji, dan�
             if(koma[j][i].name == k.name && 
               (koma[j][i].nari == k.nari || k.nari == 1) && 
                tezu%2 == !(koma[j][i].syoyusya) ){
-
+                //cout<<koma[j][i].kanji<<endl;
                 vector<pair<int,int> > hani;
                 vector<pair<int,int> >::iterator it;
                 hani = koma[j][i].kougekihani(j,i,this);
