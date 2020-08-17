@@ -1,4 +1,5 @@
 #include"koma.h"
+#include"ban.h"
 #include<iostream>
 Koma::Koma(){
     name = "nasi";
@@ -21,7 +22,7 @@ Koma::Koma(string str){
         code = 'G';
         kanji = "銀";
     }else if (str == "kin" or str == "K" or str == "金"){
-        name = "keima";
+        name = "kin";
         code = 'K';
         kanji = "金";
     }else if (str == "tama" or str == "T" or str == "玉"){
@@ -37,7 +38,7 @@ Koma::Koma(string str){
         code = 'n';
         kanji = "  ";
     }else if(str == "hisya" or str == "h" or str == "飛"){
-        name = "hihsya";
+        name = "hisya";
         code = 'h';
         kanji = "飛";
     }else if(str == "kaku" or str == "k" or str == "角"){
@@ -53,7 +54,7 @@ Koma::Koma(string str, bool syo){
     name = str;
     syoyusya = syo;
 }
-vector<pair<int,int> > Koma::kougekihani(int suji, int dan){
+vector<pair<int,int> > Koma::kougekihani(int suji, int dan, Ban *ban){
     vector<pair<int,int> > hani;
     if(name == "fu"){
         if(syoyusya == 0){
@@ -170,6 +171,7 @@ vector<pair<int,int> > Koma::kougekihani(int suji, int dan){
             if(nari == 0){
                 for(int i = dan-1 ; i>=0; i--){
                     hani.push_back(pair<int,int>(suji,i));
+                    if(ban->koma[suji][i].name!="nasi")break;
                 }
             }else if(nari == 1){
                 if(suji+1 <= 8 && dan-1 >= 0){
@@ -195,6 +197,7 @@ vector<pair<int,int> > Koma::kougekihani(int suji, int dan){
             if(nari == 0){
                 for(int i = dan+1 ; i<=80; i++){
                     hani.push_back(pair<int,int>(suji,i));
+                    if(ban->koma[suji][i].name!="nasi")break;
                 }
             }else if(nari == 1){
                 if(suji+1 <= 8 && dan+1 <= 8){
@@ -293,7 +296,7 @@ vector<pair<int,int> > Koma::kougekihani(int suji, int dan){
                 }
             }
         }
-    }else if(name == "gin"){
+    }else if(name == "kin"){
         if(syoyusya == 0){
             {
                 if(suji+1 <= 8 && dan-1 >= 0){
@@ -320,8 +323,8 @@ vector<pair<int,int> > Koma::kougekihani(int suji, int dan){
                 if(suji+1 <= 8 && dan+1 <= 8){
                     hani.push_back(pair<int,int>(suji+1,dan+1));
                 }
-                if(dan-1 >= 0 ){
-                    hani.push_back(pair<int,int>(suji,dan-1));
+                if(dan+1 <= 8 ){
+                    hani.push_back(pair<int,int>(suji,dan+1));
                 }
                 if(suji-1 >= 0 && dan+1 <= 8){
                     hani.push_back(pair<int,int>(suji-1,dan+1));
@@ -332,8 +335,8 @@ vector<pair<int,int> > Koma::kougekihani(int suji, int dan){
                 if(suji-1 >= 0){
                     hani.push_back(pair<int,int>(suji-1,dan));
                 }
-                if(dan+1 <= 8){
-                    hani.push_back(pair<int,int>(suji,dan+1));
+                if(dan-1 >= 0){
+                    hani.push_back(pair<int,int>(suji,dan-1));
                 }
             }
         }
@@ -367,19 +370,23 @@ vector<pair<int,int> > Koma::kougekihani(int suji, int dan){
             }
         }
     }else if(name == "hisya"){
-        
+            
             if(nari == 0){
                 for(int i = dan-1 ; i>=0; i--){
                     hani.push_back(pair<int,int>(suji,i));
+                    if(ban->koma[suji][i].name!="nasi")break;
                 }
                 for(int i = dan+1 ; i<=8; i++){
                     hani.push_back(pair<int,int>(suji,i));
+                    if(ban->koma[suji][i].name!="nasi")break;
                 }
                 for(int i = suji-1 ; i>=0; i--){
                     hani.push_back(pair<int,int>(i,dan));
+                    if(ban->koma[i][dan].name!="nasi")break;
                 }
                 for(int i = suji+1 ; i<=8; i++){
                     hani.push_back(pair<int,int>(i,dan));
+                    if(ban->koma[i][dan].name!="nasi")break;
                 }
             }
             if(nari == 1){
@@ -400,19 +407,22 @@ vector<pair<int,int> > Koma::kougekihani(int suji, int dan){
         
         
     }else if(name == "kaku"){
-        cout<<"我在這\n"<<endl;
             if(nari == 0){
                 for(int i = dan-1,j= suji -1; i>=0&&j>=0 ; i--,j--){
                     hani.push_back(pair<int,int>(j,i));
+                    if(ban->koma[j][i].name!="nasi")break;
                 }
                 for(int i = dan+1,j= suji -1; i<=8 && j>=0 ; i++,j--){
                     hani.push_back(pair<int,int>(j,i));
+                    if(ban->koma[j][i].name!="nasi")break;
                 }
                 for(int i = dan+1,j= suji +1; i<=8&&j<=8 ; i++,j++){
                     hani.push_back(pair<int,int>(j,i));
+                    if(ban->koma[j][i].name!="nasi")break;
                 }
                 for(int i = dan-1,j= suji +1; i>=0 && j<=8 ; i--,j--){
                     hani.push_back(pair<int,int>(j,i));
+                    if(ban->koma[j][i].name!="nasi")break;
                 }
             }
             if(nari == 1){

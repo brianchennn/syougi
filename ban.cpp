@@ -216,7 +216,7 @@ vector<pair<int,int> > Ban::ugokerukoma(Koma k,int suji, int dan){// suji, danæ˜
 
                 vector<pair<int,int> > hani;
                 vector<pair<int,int> >::iterator it;
-                hani = koma[j][i].kougekihani(j,i);
+                hani = koma[j][i].kougekihani(j,i,this);
             
                 it = find(hani.begin(),hani.end(),pair<int,int>(suji,dan));
                 if(it!=hani.end())vec.push_back(pair<int,int>(j,i));
