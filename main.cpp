@@ -1,4 +1,4 @@
-#include"ban.h"
+/*#include"ban.h"
 #include<iostream>
 using namespace std;
 int main()
@@ -7,3 +7,4 @@ int main()
     B1.Print();
     
 }
+*/

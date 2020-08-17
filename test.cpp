@@ -1,7 +1,16 @@
-#include"koma.h"
+
+#include"ban.h"
+
 #include<iostream>
 using namespace std;
 int main(){
-	Koma k("fu");
-	cout<<k.name<<endl;
+	Ban B;
+	B.Print();
+	
+	
+	cout<<B.koma[8][2].kanji<<endl;
+	while(1){
+		B.sasu();
+	}
+	
 }
