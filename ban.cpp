@@ -111,6 +111,23 @@ Ban::Ban(){
     gote_komadai.clear();
     tezu=1;
 }
+#define RESET "\033[0m" 
+#define BLACK "\033[30m" /* Black */ 
+#define RED "\033[31m" /* Red */ 
+#define GREEN "\033[32m" /* Green */ 
+#define YELLOW "\033[33m" /* Yellow */ 
+#define BLUE "\033[34m" /* Blue */ 
+#define MAGENTA "\033[35m " /* Magenta */ 
+#define CYAN "\033[36m" /* Cyan */ 
+#define WHITE "\033[37m" /* White */ 
+#define BOLDBLACK "\033[1m\033[30m" /* Bold Black */ 
+#define BOLDRED "\033[1m\033[31m" /* Bold Red */ 
+#define BOLDGREEN "\033[1m\033[32m"/* Bold Green */ 
+#define BOLDYELLOW "\033[1m\033[33m" /* Bold Yellow */
+#define BOLDBLUE "\033[1m\033[34m" /* Bold Blue */ 
+#define BOLDMAGENTA "\033[1m\033[35m" /* Bold Magenta */ 
+#define BOLDCYAN "\033[1m\033[36m " /* Bold Cyan */ 
+#define BOLDWHITE "\033[1m\033[37m" /* Bold White */
 void Ban::Print(){
 
     int count = 0;
@@ -126,30 +143,35 @@ void Ban::Print(){
     for(int i=0;i<36;i++)cout<<"-";
     cout<<"\n";
     for(int i=0;i<9;i++){
-        cout<<"|";
+        cout<<WHITE<<"|";
         for(int j=8;j>=0;j--){
+            bool syo = koma[j][i].syoyusya;
             if(koma[j][i].nari == 0){
-                cout<<koma[j][i].kanji;
+                if(koma[j][i].syoyusya == 0)
+                    cout<<YELLOW<<koma[j][i].kanji;
+                else 
+                    cout<<BOLDRED<<koma[j][i].kanji;
             }else{
-                if(koma[j][i].kanji == "桂")cout<<"圭";
-                if(koma[j][i].kanji == "香")cout<<"杏";
-                if(koma[j][i].kanji == "銀")cout<<"全";
-                if(koma[j][i].kanji == "步")cout<<"と";
-                if(koma[j][i].kanji == "飛")cout<<"竜";
-                if(koma[j][i].kanji == "角")cout<<"馬";
+                
+                if(koma[j][i].kanji == "桂")syo?cout<<BOLDRED<<"圭":cout<<YELLOW<<"圭";
+                if(koma[j][i].kanji == "香")syo?cout<<BOLDRED<<"杏":cout<<YELLOW<<"杏";
+                if(koma[j][i].kanji == "銀")syo?cout<<BOLDRED<<"全":cout<<YELLOW<<"全";
+                if(koma[j][i].kanji == "歩")syo?cout<<BOLDRED<<"と":cout<<YELLOW<<"と";
+                if(koma[j][i].kanji == "飛")syo?cout<<BOLDRED<<"竜":cout<<YELLOW<<"竜";
+                if(koma[j][i].kanji == "角")syo?cout<<BOLDRED<<"馬":cout<<YELLOW<<"馬";
             }
             if(koma[j][i].name!="nasi"){
-                if(koma[j][i].syoyusya==0)cout<<"↑";
-                else cout<<"↓";
+                if(koma[j][i].syoyusya==0) syo?cout<<BOLDRED<<"↑":cout<<YELLOW<<"↑";
+                else syo?cout<<BOLDRED<<"↓":cout<<YELLOW<<"↓";
             }else{
                 cout<<" ";
             }
             
             cout<<" ";
         }
-        cout<<"|\n|";
+        cout<<WHITE<<"|\n|";
         for(int j=0;j<36;j++)cout<<" ";
-        cout<<"|\n";
+        cout<<WHITE<<"|\n";
     }
     cout<<' ';
     for(int i=0;i<36;i++)cout<<"-";
@@ -265,14 +287,14 @@ void Ban::sasu(){
             if(tezu%2 == 1){
                 if( itte.dan == 0 || itte.dan == 1 || itte.dan == 2 
                     || ugokeru[0].second == 0 || ugokeru[0].second == 1 || ugokeru[0].second == 2){
-                    koma[itte.suji][itte.dan].nari = 1;
+                    koma[ugokeru[0].first][ugokeru[0].second].nari = 1;
                 }else{
                     cout<<"なれません！";
                 }
             }else{
                 if( itte.dan == 6 || itte.dan == 7 || itte.dan == 8 
                     || ugokeru[0].second == 6 || ugokeru[0].second == 7 || ugokeru[0].second == 8){
-                    koma[itte.suji][itte.dan].nari = 1;
+                    koma[ugokeru[0].first][ugokeru[0].second].nari = 1;
                 }else{
                     cout<<"なれません！";
                 }
